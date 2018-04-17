@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Result</h1>
+    <p th:text="'title: ' + ${book.title}" />
+    <p th:text="'author: ' + ${book.author}" />
+    <p th:text="'genre: ' + ${book.genre}" />
+    <p th:text="'price: ' + ${book.price}" />
+    <a href="/form">Submit another Book</a>
+</body>
+</html>
