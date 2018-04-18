@@ -36,7 +36,7 @@ public class AdminController {
 	@Order(value = 1)
 	 public String displayMenu( Model model) {
 	       // final List<User> users = userService.findAll();
-			model.addAttribute("deleteId", new String());
+		//	model.addAttribute("deleteId", new String());
 			model.addAttribute(new User());
 	        return "administrator";
 	    }
@@ -64,13 +64,12 @@ public class AdminController {
 	}
 	
 	@PostMapping(value = "/updateUser",params = "updateUser")
-	public String updateUser(@ModelAttribute User user, Model model){
-		model.addAttribute("user",new User());
-		notification = userService.update(user);
-		if(notification.hasErrors())
+	public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername, Model model){
+		notification = userService.update(Integer.parseInt(updateId),newUsername);
+		/*if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
-			model.addAttribute("valid", "Succesfully registered!");
+			model.addAttribute("valid", "Succesfully registered!");*/
 		return "redirect:/admin";
 	}
 	

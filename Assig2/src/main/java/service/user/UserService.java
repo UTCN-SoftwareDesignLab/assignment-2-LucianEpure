@@ -13,5 +13,5 @@ public interface UserService {
 	
 	public void fireById(int id);
 	
-	public Notification<Boolean> update(User user);
+	public Notification<Boolean> update(int id, String newUsername);
 }

@@ -6,12 +6,17 @@
 </head>
 <body>
 	<h1>Add book</h1>
-    <form action="#" th:action="@{/addBook}" th:object="${book}" method="post">
+    <form action="#" name ="addBook" th:action="@{/book/addBook}" th:object="${book}" method="post">
         <p>Title: <input type="text" th:field="*{title}" /></p>
         <p>Author: <input type="text" th:field="*{author}" /></p>
         <p>Genre: <input type="text" th:field="*{genre}" /></p>
         <p>Price: <input type="text" th:field="*{price}" /></p>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>
+    <br>
+    <h3>Show Users</h3>
+		<form action="#" name="showBooks" th:action="@{/book/books}"  method="post">
+         <p><input type="submit" name="showBooks" value="Show Books" /> </p>     
+		</form>
 </body>
 </html>

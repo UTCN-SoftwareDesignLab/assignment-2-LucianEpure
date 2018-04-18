@@ -34,9 +34,9 @@
 		</form>
 		
 		<h3>Update User</h3>
-       	<form action="#" name="updateUser" th:action="@{/admin/UpdateUser}"  th:object="${user}" method="post">
-    	 <p> Id: <input type="text" th:field="*{id}" /></p>
-    	<p>Username: <input type="text" th:field="*{username}" /></p>
+       	<form action="#" name="updateUser" th:action="@{/admin/updateUser}"  method="post">
+    	 <p> Id: <input type="text" name = "updateId" id="updateId" /></p>
+    	<p>Username: <input type="text" name = "newUsername" id="newUsername" /></p>
         <p><input type="submit" name="updateUser" value="Update" /> </p>
         
 		</form>

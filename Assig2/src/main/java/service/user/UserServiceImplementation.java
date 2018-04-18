@@ -42,20 +42,26 @@ public class UserServiceImplementation implements UserService{
 	}
 
 	@Override
-	public Notification<Boolean> update(User user) {
+	public Notification<Boolean> update(int id, String newUsername) {
+		
+		User user = userRepository.getOne(id);
+		user.setUsername(newUsername);
 		validator = new UserValidator(user); 
+		System.out.println("USER"+user.getUsername());
+		System.out.println("PASS"+user.getPassword());
 		boolean userValid = validator.validate();
 		Notification<Boolean> userRegisterNotification = new Notification<>();
-		if(!userValid){
+		/*if(!userValid){
 			validator.getErrors().forEach(userRegisterNotification::addError);
+			System.out.println(userRegisterNotification.getFormattedErrors());
 			userRegisterNotification.setResult(Boolean.FALSE);	
 		}	
-		else{
+		else{*/
 			
-			//userRepository.
-			//userRegisterNotification.setResult(Boolean.TRUE);
-		}
-		System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
+			userRepository.save(user);
+		//	userRegisterNotification.setResult(Boolean.TRUE);
+		//}
+		//System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
 		return userRegisterNotification;
 	}
 
