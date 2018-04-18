@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Administrator</title>
+</head>
+<body>
+
+<div  align="center" class="showAllUsers">
+		<H1>Admin Menu</H1>
+		<br>
+		<br>
+		<h3>Add User</h3>
+       <form action="#" name="addUser" th:action="@{/admin/addUser}"  th:object="${user}" method="post">
+    	 
+    	<p>Username: <input type="text" th:field="*{username}" /></p>
+        <p>Password: <input type="text" th:field="*{password}" /></p>
+        <p><input type="submit" name="addUser" value="Register" /> </p>
+		</form>
+		<br>
+		<h3>Delete User</h3>
+		<form action="#" name="deleteUser" th:action="@{/admin/deleteUser}"  method="post">
+    	
+        <p>DeleteId: <input type="text" name ="deleteId" id="deleteId" /></p>
+        <p><input type="submit" name="deleteUser" value="Delete User" /> </p>	
+		</form>
+		
+		<br>
+		<h3>Show Users</h3>
+		<form action="#" name="showUsers" th:action="@{/admin/showUsers}"  method="post">
+         <p><input type="submit" name="showUsers" value="Show Users" /> </p>     
+		</form>
+		
+		<h3>Update User</h3>
+       	<form action="#" name="updateUser" th:action="@{/admin/UpdateUser}"  th:object="${user}" method="post">
+    	 <p> Id: <input type="text" th:field="*{id}" /></p>
+    	<p>Username: <input type="text" th:field="*{username}" /></p>
+        <p><input type="submit" name="updateUser" value="Update" /> </p>
+        
+		</form>
+</div>
+
+        
+    
+    
+ 
+</body>
+</html>

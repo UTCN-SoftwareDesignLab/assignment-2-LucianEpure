@@ -1,8 +1,5 @@
 package controller;
 
-import java.util.logging.Logger;
-
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
@@ -10,49 +7,62 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import model.User;
-import service.AuthenticationService;
+import service.user.AuthenticationService;
+import validators.Notification;
 
 @Controller
-@RequestMapping(value = "/authenticate")
+
 public class RegisterController {
 	
 	private AuthenticationService authenticationService;
-	
+	private Notification<Boolean> notification;
 	@Autowired
 	public RegisterController(AuthenticationService authenticationService){
 		this.authenticationService = authenticationService;
 	}
-	/*
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-    @Order(value = 1)
-    public String log(Model model) {
-		model.addAttribute("user",new User());
-        return "loginreg";
-	}*/
+	
 	
 	@GetMapping(value = "/register")
-    public String regi(Model model) {
+	@Order(value = 1)
+    public String displayMenu(Model model) {
 		model.addAttribute("user",new User());
+		model.addAttribute("valid", new String());
         return "loginreg";
 	}
 	
 	@PostMapping(value = "/register",params="register")
-    public String register(@ModelAttribute User user, Model model) {
-		model.addAttribute("user",user);
-		authenticationService.register(user);
-        return "newAdmin";
-	}
-	@PostMapping(value = "/register",params="login")
-    public String login(@ModelAttribute User user, Model model) {
-		model.addAttribute("user",user);
-		authenticationService.login(user);
+    public String register( @ModelAttribute User user, Model model) {
+
+		model.addAttribute("user",new User());
+		notification = authenticationService.registerAdmin(user);
+		if(notification.hasErrors())
+			model.addAttribute("valid", notification.getFormattedErrors());
+		else
+			model.addAttribute("valid", "Succesfully registered!");
         return "loginreg";
 	}
 	
+	@PostMapping(value = "/register",params="login")
+    public String login(@ModelAttribute User user, Model model) {
+		model.addAttribute("user",user);
+		User loggedUser = authenticationService.login(user);
+		if(loggedUser != null){
+			return decidePage(loggedUser);
+		}
+		else{
+			model.addAttribute("valid", "Not logged!");
+			return "loginreg";
+		}
+	}
+	
+	private String decidePage(User user){
+		if(user.getRoles().get(0).getRoleName().equalsIgnoreCase("Administrator"))
+			return "redirect:/admin";
+		if (user.getRoles().get(0).getRoleName().equalsIgnoreCase("regUser"))
+			return "redirect:/regUser";
+		return null;
+	}
 	
 	
 }

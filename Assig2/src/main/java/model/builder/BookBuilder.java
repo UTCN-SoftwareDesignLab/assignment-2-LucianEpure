@@ -26,6 +26,10 @@ public class BookBuilder {
 		book.setPrice(price);
 		return this;
 	}
+	public BookBuilder setQuantity(int quantity){
+		book.setQuantity(quantity);
+		return this;
+	}
 	public Book build(){
 		return this.book;
 	}

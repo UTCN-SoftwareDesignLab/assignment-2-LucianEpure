@@ -1,4 +1,4 @@
-package service;
+package service.book;
 
 
 import java.util.ArrayList;
@@ -19,14 +19,14 @@ public class BookServiceImplementation implements BookService{
 	@Autowired
 	public BookServiceImplementation(BookRepository bookRepository){
 		this.bookRepository = bookRepository;
-		Book book = new BookBuilder().seAuthor("Steinbeck").setTitle("East of Eden").setGenre("drama").setPrice(50).build();
+		Book book = new BookBuilder().seAuthor("Steinbeck").setTitle("East of Eden").setGenre("drama").setPrice(50).setQuantity(20).build();
 		bookRepository.save(book);
 	}
 	@Override
 	public List<Book> findAll() {
 		
 	        final Iterable<Book> items = bookRepository.findAll();
-	        List<Book> result = new ArrayList<>();
+	        List<Book> result = new ArrayList<Book>();
 	        items.forEach(result::add);
 	        return result;
 	    }
