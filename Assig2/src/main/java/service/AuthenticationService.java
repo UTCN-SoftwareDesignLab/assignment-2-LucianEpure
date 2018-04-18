@@ -1,10 +1,11 @@
 package service;
 
 import model.User;
+import validators.Notification;
 
 public interface AuthenticationService {
 
-	public User registerUser(User user);
+	public Notification<Boolean> register(User user);
 	
-	public User login();
+	public User login(User user);
 }

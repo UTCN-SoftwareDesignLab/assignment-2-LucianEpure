@@ -7,24 +7,40 @@ import org.springframework.stereotype.Service;
 
 import model.User;
 import repository.UserRepository;
+import validators.IValidator;
+import validators.Notification;
+import validators.UserValidator;
 
 @Service
 public class AuthenticationServiceImplementation implements AuthenticationService{
 
 	private UserRepository userRepository;
-	
+	private IValidator validator;
 	@Autowired
 	public AuthenticationServiceImplementation(UserRepository userRepository){
 		this.userRepository = userRepository;
 	}
 
 	@Override
-	public User registerUser(User user) {
-		return userRepository.save(user);
+	public Notification<Boolean> register(User user) {
+		validator = new UserValidator(user); 
+		boolean userValid = validator.validate();
+		Notification<Boolean> userRegisterNotification = new Notification<>();
+		if(!userValid){
+			validator.getErrors().forEach(userRegisterNotification::addError);
+			userRegisterNotification.setResult(Boolean.FALSE);	
+		}	
+		else{
+			user.setPassword(encodePassword(user.getPassword()));
+			userRepository.save(user);
+			userRegisterNotification.setResult(Boolean.TRUE);
+		}
+		System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
+		return userRegisterNotification;
 	}
 
 	@Override
-	public User login() {
+	public User login(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
