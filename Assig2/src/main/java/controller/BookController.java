@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.BookDto;
+import dto.UserDto;
 import model.Book;
 import model.User;
 import service.book.BookService;
+import validators.Notification;
 
 @Controller
-@RequestMapping(value = "/book")
+@RequestMapping(value = "/admin/book")
 public class BookController {
 
 	 private BookService bookService;
+	 private Notification<Boolean> notification;
 	
 	  @Autowired
 	  public BookController(BookService bookService){
@@ -30,12 +34,12 @@ public class BookController {
 	  }
 	  @GetMapping()
 			public String register(Model model){
-				model.addAttribute(new Book());	
+				model.addAttribute(new BookDto());	
 				return "book";
 			}
 	  
 	  
-	  @PostMapping(value = "/books", params= "showBooks")
+	  @PostMapping(value = "/showBooks", params= "showBooks")
 	  public String findAll(Model model) {
 	        // returneaza fisieru html pe care il vrem in browser
 	        final List<Book> books = bookService.findAll();
@@ -44,14 +48,36 @@ public class BookController {
 	        return "showBooks";
 	    }
 	 
-	
+	  @PostMapping(params="deleteBook")
+		 public String delete( @RequestParam("bookId") String bookId, Model model) {
+				bookService.deleteById(Integer.parseInt(bookId));
+				return "redirect:/admin/book";
+		    }
 		
-	   @PostMapping(value="/addBook", params="addBook")
-		    public String bookSubmit(@ModelAttribute Book book, Model model) {
+	   @PostMapping( params="addBook")
+		    public String bookSubmit(@ModelAttribute BookDto book, Model model) {
 		         
 		        model.addAttribute("book", book);
-		        bookService.save(book);
-		        return "redirect:/book";
+		        
+		        notification = bookService.save(book);
+		        if(notification.hasErrors())
+					model.addAttribute("valid", notification.getFormattedErrors());
+				else
+					model.addAttribute("valid", "Succesfully registered!");
+		        return "redirect:/admin/book";
 		    }
+	   
+	   @PostMapping(params = "updateBook")
+		//public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername,@RequestParam Model model){
+		public String updateBook(@ModelAttribute BookDto book, Model model){
+			model.addAttribute("book",new BookDto());
+			System.out.println("ID "+book.getId()+" Booook2 "+book.getTitle());
+			notification = bookService.update(book);
+			if(notification.hasErrors())
+				model.addAttribute("valid", notification.getFormattedErrors());
+			else
+				model.addAttribute("valid", "Succesfully registered!");
+			return "redirect:/admin/book";
+		}
 	 
 }

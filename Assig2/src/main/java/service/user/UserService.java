@@ -2,6 +2,7 @@ package service.user;
 
 import java.util.List;
 
+import dto.UserDto;
 import model.User;
 import validators.Notification;
 
@@ -13,5 +14,5 @@ public interface UserService {
 	
 	public void fireById(int id);
 	
-	public Notification<Boolean> update(int id, String newUsername);
+	public Notification<Boolean> update(UserDto user);
 }

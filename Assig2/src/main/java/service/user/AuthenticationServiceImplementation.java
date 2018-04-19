@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dto.UserDto;
 import model.Role;
 import model.User;
 import repository.RoleRepository;
@@ -29,20 +30,22 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 	}
 
 	@Override
-	public Notification<Boolean> registerAdmin(User user) {
+	public Notification<Boolean> registerAdmin(UserDto user) {
 		validator = new UserValidator(user); 
 		boolean userValid = validator.validate();
-		Notification<Boolean> userRegisterNotification = new Notification<>();
+		Notification<Boolean> userRegisterNotification = new Notification<Boolean>();
 		if(!userValid){
 			validator.getErrors().forEach(userRegisterNotification::addError);
 			userRegisterNotification.setResult(Boolean.FALSE);	
 		}	
 		else{
-			user.setPassword(encodePassword(user.getPassword()));
-			List<Role> userRoles = user.getRoles();
+			User dbUser = new User();
+			dbUser.setUsername(user.getUsername());
+			dbUser.setPassword(encodePassword(user.getPassword()));
+			List<Role> userRoles = dbUser.getRoles();
 			userRoles.add(roleRepository.findByRoleName("administrator"));
-			user.setRoles(userRoles);
-			userRepository.save(user);
+			dbUser.setRoles(userRoles);
+			userRepository.save(dbUser);
 			userRegisterNotification.setResult(Boolean.TRUE);
 		}
 		System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
@@ -50,20 +53,22 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 	}
 	
 	@Override
-	public Notification<Boolean> registerUser(User user) {
+	public Notification<Boolean> registerUser(UserDto user) {
 		validator = new UserValidator(user); 
 		boolean userValid = validator.validate();
-		Notification<Boolean> userRegisterNotification = new Notification<>();
+		Notification<Boolean> userRegisterNotification = new Notification<Boolean>();
 		if(!userValid){
 			validator.getErrors().forEach(userRegisterNotification::addError);
 			userRegisterNotification.setResult(Boolean.FALSE);	
 		}	
 		else{
-			user.setPassword(encodePassword(user.getPassword()));
-			List<Role> userRoles = user.getRoles();
+			User dbUser = new User();
+			dbUser.setUsername(user.getUsername());
+			dbUser.setPassword(encodePassword(user.getPassword()));
+			List<Role> userRoles = dbUser.getRoles();
 			userRoles.add(roleRepository.findByRoleName("regUser"));
-			user.setRoles(userRoles);
-			userRepository.save(user);
+			dbUser.setRoles(userRoles);
+			userRepository.save(dbUser);
 			userRegisterNotification.setResult(Boolean.TRUE);
 		}
 		System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
@@ -71,12 +76,13 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 	}
 
 	@Override
-	public User login(User user) {
+	public User login(UserDto user) {
 		User loggedUser =  userRepository.findByUsernameAndPassword(user.getUsername(), encodePassword(user.getPassword()));
 		return loggedUser;
 	}
 	
-	public static String encodePassword(String password) {
+	@Override
+	public String encodePassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes("UTF-8"));

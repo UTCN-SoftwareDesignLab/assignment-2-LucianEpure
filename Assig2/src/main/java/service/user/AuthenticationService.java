@@ -1,13 +1,16 @@
 package service.user;
 
+import dto.UserDto;
 import model.User;
 import validators.Notification;
 
 public interface AuthenticationService {
 
-	public Notification<Boolean> registerAdmin(User user);
+	Notification<Boolean> registerAdmin(UserDto user);
 	
-	public Notification<Boolean> registerUser(User user);
+	Notification<Boolean> registerUser(UserDto user);
 	
-	public User login(User user);
+	String encodePassword(String password);
+	
+	User login(UserDto user);
 }

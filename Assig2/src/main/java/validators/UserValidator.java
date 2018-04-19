@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dto.UserDto;
 import model.User;
 
 public class UserValidator implements IValidator{
@@ -14,14 +15,14 @@ public class UserValidator implements IValidator{
 
   
     
-    private final User user;
+    private final UserDto user;
     private final List<String> errors;
 
     public List<String> getErrors() {
         return errors;
     }
     
-    public UserValidator(User user) {
+    public UserValidator(UserDto user) {
         this.user = user;
         errors = new ArrayList<>();
     }

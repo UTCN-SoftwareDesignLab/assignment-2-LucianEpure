@@ -15,7 +15,9 @@ public class Book {
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private int id;
 	 
-	 @Column(name = "title")
+	 
+
+	@Column(name = "title")
 	private String title;
 	 @Column(name = "author")
 	private String author;
@@ -26,7 +28,25 @@ public class Book {
 	 @Column(name = "quantity")
 	 private int quantity;
 	 
+	public Book(){
+		
+	}
 	
+	public Book(String title, String author, String genre, double price, int quantity){
+		this.title = title;
+		this.author = author;
+		this.genre = genre;
+		this.price = price;
+		this.quantity = quantity;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getTitle() {
 		return title;

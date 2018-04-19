@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dto.UserDto;
 import model.Role;
 import model.User;
 import repository.UserRepository;
@@ -16,10 +17,13 @@ import validators.UserValidator;
 public class UserServiceImplementation implements UserService{
 
 	private UserRepository userRepository;
+	private AuthenticationService authenticationService;
 	private IValidator validator;
+	
 	@Autowired
-	public UserServiceImplementation(UserRepository userRepository){
+	public UserServiceImplementation(UserRepository userRepository, AuthenticationService authenticationService){
 		this.userRepository = userRepository;
+		this.authenticationService = authenticationService;
 	}
 	@Override
 	public List<User> findAll() {
@@ -32,7 +36,7 @@ public class UserServiceImplementation implements UserService{
 
 	@Override
 	public User findById(int id) {
-		return null;//return userRepository.findById(id);
+		return userRepository.getOne(id);
 	}
 
 	@Override
@@ -42,27 +46,26 @@ public class UserServiceImplementation implements UserService{
 	}
 
 	@Override
-	public Notification<Boolean> update(int id, String newUsername) {
+	public Notification<Boolean> update(UserDto user) {
 		
-		User user = userRepository.getOne(id);
-		user.setUsername(newUsername);
+		
 		validator = new UserValidator(user); 
-		System.out.println("USER"+user.getUsername());
-		System.out.println("PASS"+user.getPassword());
+		
 		boolean userValid = validator.validate();
 		Notification<Boolean> userRegisterNotification = new Notification<>();
-		/*if(!userValid){
+		if(!userValid){
 			validator.getErrors().forEach(userRegisterNotification::addError);
 			System.out.println(userRegisterNotification.getFormattedErrors());
 			userRegisterNotification.setResult(Boolean.FALSE);	
 		}	
-		else{*/
-			
-			userRepository.save(user);
-		//	userRegisterNotification.setResult(Boolean.TRUE);
-		//}
+		else{
+			User dbUser = userRepository.getOne(user.getId());
+			dbUser.setUsername(user.getUsername());
+			dbUser.setPassword(authenticationService.encodePassword(user.getPassword()));
+			userRepository.save(dbUser);
+			userRegisterNotification.setResult(Boolean.TRUE);
+		}
 		//System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
 		return userRegisterNotification;
 	}
-
 }

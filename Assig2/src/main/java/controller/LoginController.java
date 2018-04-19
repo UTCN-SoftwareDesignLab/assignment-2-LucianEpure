@@ -7,18 +7,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import dto.UserDto;
 import model.User;
 import service.user.AuthenticationService;
 import validators.Notification;
 
 @Controller
 
-public class RegisterController {
+public class LoginController {
 	
 	private AuthenticationService authenticationService;
 	private Notification<Boolean> notification;
 	@Autowired
-	public RegisterController(AuthenticationService authenticationService){
+	public LoginController(AuthenticationService authenticationService){
 		this.authenticationService = authenticationService;
 	}
 	
@@ -26,15 +28,15 @@ public class RegisterController {
 	@GetMapping(value = "/register")
 	@Order(value = 1)
     public String displayMenu(Model model) {
-		model.addAttribute("user",new User());
+		model.addAttribute("user",new UserDto());
 		model.addAttribute("valid", new String());
         return "loginreg";
 	}
 	
 	@PostMapping(value = "/register",params="register")
-    public String register( @ModelAttribute User user, Model model) {
+    public String register( @ModelAttribute UserDto user, Model model) {
 
-		model.addAttribute("user",new User());
+		model.addAttribute("user",new UserDto());
 		notification = authenticationService.registerAdmin(user);
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
@@ -44,8 +46,8 @@ public class RegisterController {
 	}
 	
 	@PostMapping(value = "/register",params="login")
-    public String login(@ModelAttribute User user, Model model) {
-		model.addAttribute("user",user);
+    public String login(@ModelAttribute UserDto user, Model model) {
+		model.addAttribute("user",new UserDto());
 		User loggedUser = authenticationService.login(user);
 		if(loggedUser != null){
 			return decidePage(loggedUser);

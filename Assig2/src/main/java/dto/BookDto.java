@@ -2,10 +2,14 @@ package dto;
 
 public class BookDto {
 
+	
+	private int id;
 	private String title;
 	private String author;
 	private String genre;
 	private double price;
+	private int quantity;
+	
 	public String getTitle() {
 		return title;
 	}
@@ -29,5 +33,17 @@ public class BookDto {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

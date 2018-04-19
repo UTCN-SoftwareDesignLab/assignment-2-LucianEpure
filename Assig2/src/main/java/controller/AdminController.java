@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dto.UserDto;
 import model.Book;
 import model.User;
 import service.user.AuthenticationService;
@@ -37,7 +38,7 @@ public class AdminController {
 	 public String displayMenu( Model model) {
 	       // final List<User> users = userService.findAll();
 		//	model.addAttribute("deleteId", new String());
-			model.addAttribute(new User());
+			model.addAttribute(new UserDto());
 	        return "administrator";
 	    }
 	@PostMapping(value = "/showUsers",params="showUsers")
@@ -47,14 +48,15 @@ public class AdminController {
 	        return "showUsers";
 	    }
 	
-	@PostMapping(value = "/deleteUser",params="deleteUser")
+	@PostMapping(params="deleteUser")
 	 public String delete( @RequestParam("deleteId") String deleteId, Model model) {
 			userService.fireById(Integer.parseInt(deleteId));
 			return "redirect:/admin";
 	    }
-	@PostMapping(value = "/addUser",params = "addUser")
-	public String addUser(@ModelAttribute User user, Model model){
-		model.addAttribute("user",new User());
+	@PostMapping(params = "addUser")
+	public String addUser(@ModelAttribute UserDto user, Model model){
+		model.addAttribute("user",new UserDto());
+		
 		notification = authenticationService.registerUser(user);
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
@@ -63,15 +65,20 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 	
-	@PostMapping(value = "/updateUser",params = "updateUser")
-	public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername, Model model){
-		notification = userService.update(Integer.parseInt(updateId),newUsername);
-		/*if(notification.hasErrors())
+	@PostMapping(params = "updateUser")
+	//public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername,@RequestParam Model model){
+	public String updateUser(@ModelAttribute UserDto user, Model model){
+		model.addAttribute("user",new UserDto());
+		System.out.println("ID "+user.getId()+" Usernameeee2 "+user.getUsername()+" Passss "+ user.getPassword());
+		notification = userService.update(user);
+		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
-			model.addAttribute("valid", "Succesfully registered!");*/
+			model.addAttribute("valid", "Succesfully registered!");
 		return "redirect:/admin";
 	}
+	
+	
 	
 	
 }

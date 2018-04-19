@@ -1,22 +1,43 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Form Submission</title>
+    <title>Manage books</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 	<h1>Add book</h1>
-    <form action="#" name ="addBook" th:action="@{/book/addBook}" th:object="${book}" method="post">
+    <form action="#" name ="addBook" th:action="@{/admin/book}" th:object="${bookDto}" method="post">
         <p>Title: <input type="text" th:field="*{title}" /></p>
         <p>Author: <input type="text" th:field="*{author}" /></p>
         <p>Genre: <input type="text" th:field="*{genre}" /></p>
         <p>Price: <input type="text" th:field="*{price}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <p>Quantity: <input type="text" th:field="*{quantity}" /></p>
+        <p><input type="submit" name = "addBook" value="Submit" /> </p>
     </form>
     <br>
-    <h3>Show Users</h3>
-		<form action="#" name="showBooks" th:action="@{/book/books}"  method="post">
+    <h3>Show Books</h3>
+		<form action="#" name="showBooks" th:action="@{/admin/book/showBooks}"  method="post">
          <p><input type="submit" name="showBooks" value="Show Books" /> </p>     
 		</form>
+		
+		
+		<h3>Delete Book</h3>
+		<form action="#" name="deleteBook" th:action="@{/admin/book}"  method="post">
+    	
+        <p>DeleteId: <input type="text" name ="bookId" id="bookId" /></p>
+        <p><input type="submit" name="deleteBook" value="Delete Book" /> </p>	
+		</form>
+		
+		<h1>Update book</h1>
+    <form action="#" name ="updateBook" th:action="@{/admin/book}" th:object="${bookDto}" method="post">
+        <p>Id: <input type="text" th:field="*{id}" /></p>
+        <p>Title: <input type="text" th:field="*{title}" /></p>
+        <p>Author: <input type="text" th:field="*{author}" /></p>
+        <p>Genre: <input type="text" th:field="*{genre}" /></p>
+        <p>Price: <input type="text" th:field="*{price}" /></p>
+        <p>Quantity: <input type="text" th:field="*{quantity}" /></p>
+        <p><input type="submit" name = "updateBook" value="Submit" /> </p>
+    </form>
+    <br>
 </body>
 </html>
