@@ -5,13 +5,16 @@
 <head>
   </head>
 <body>
-    <div class="container">
+    <div align = center class="container">
        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+       	<h1>Authentication</h1>
     	<p>Username: <input type="text" th:field="*{username}" /></p>
-        <p>Password: <input type="text" th:field="*{password}" /></p>
-        <p><input type="submit" name="login" value="Login" /> </p>
-        <p><input type="submit" name="register" value="Register" /> </p>
-        <p th:text="HERE + ${valid}" /></p>
+        <p>Password: <input type="password" th:field="*{password}" /></p>
+        <p><input type="submit" name="login" value="Login" /><input type="submit" name="register" value="Register" /> </p>
+         <div align = "center" style="background-color:lightblue">
+  				 <h4>Validation</h4>
+ 				 <p th:text="${valid}" /></p>
+		</div> 
     </form>
    
     </div>

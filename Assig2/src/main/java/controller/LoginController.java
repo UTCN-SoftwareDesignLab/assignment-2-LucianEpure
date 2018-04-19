@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import dto.UserDto;
-import model.User;
+import entity.User;
+import main.Bootstrap;
 import service.user.AuthenticationService;
 import validators.Notification;
 

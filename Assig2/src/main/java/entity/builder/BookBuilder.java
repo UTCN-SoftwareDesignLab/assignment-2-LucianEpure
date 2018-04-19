@@ -1,6 +1,6 @@
-package model.builder;
+package entity.builder;
 
-import model.Book;
+import entity.Book;
 
 public class BookBuilder {
 

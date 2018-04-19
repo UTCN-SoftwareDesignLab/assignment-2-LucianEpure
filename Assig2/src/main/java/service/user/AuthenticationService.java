@@ -1,7 +1,7 @@
 package service.user;
 
 import dto.UserDto;
-import model.User;
+import entity.User;
 import validators.Notification;
 
 public interface AuthenticationService {

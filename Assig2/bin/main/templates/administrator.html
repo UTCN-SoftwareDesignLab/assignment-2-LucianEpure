@@ -8,10 +8,15 @@
 </head>
 <body>
 
-<div  align="center" class="showAllUsers">
+<div align = "left">
 		<H1>Admin Menu</H1>
+		<div align = "center"  style="background-color:lightblue">
+  				 <h4>Validation</h4>
+ 				 <p th:text="${valid}" /></p>
+		</div> 
 		<br>
-		<br>
+		</div>
+		<div  align="center" class="showAllUsers">
 		<h3>Add User</h3>
         <form action="#" name="addUser" th:action="@{/admin}"  th:object="${userDto}" method="post">
     	 
@@ -46,6 +51,8 @@
       
 		<form th:action="@{/admin/book}">
     	<input type="submit" value="Manage Books" />
+    	
+    	
     	
 </form>
 </div>

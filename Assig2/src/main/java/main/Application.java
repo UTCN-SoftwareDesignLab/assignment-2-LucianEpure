@@ -12,10 +12,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @EnableAutoConfiguration
-@ComponentScan({"model","repository","service","controller","main"})
+@ComponentScan({"entity","dto","repository","service","controller","main"})
 @EnableJpaRepositories(basePackages = {"repository"})
 @PropertySource(value = "classpath:application.properties")
-@EntityScan(basePackages ={"model"})
+@EntityScan(basePackages ={"entity"})
 public class Application {
 
     public static void main(String[] args) {

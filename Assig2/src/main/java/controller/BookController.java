@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.BookDto;
 import dto.UserDto;
-import model.Book;
-import model.User;
+import entity.Book;
+import entity.User;
 import service.book.BookService;
 import validators.Notification;
 
@@ -35,6 +35,7 @@ public class BookController {
 	  @GetMapping()
 			public String register(Model model){
 				model.addAttribute(new BookDto());	
+				model.addAttribute("value",new String());
 				return "book";
 			}
 	  
@@ -44,40 +45,36 @@ public class BookController {
 	        // returneaza fisieru html pe care il vrem in browser
 	        final List<Book> books = bookService.findAll();
 	        model.addAttribute("books", books);
-	        System.out.println("BOOKS"+ books.size());
 	        return "showBooks";
 	    }
 	 
 	  @PostMapping(params="deleteBook")
 		 public String delete( @RequestParam("bookId") String bookId, Model model) {
 				bookService.deleteById(Integer.parseInt(bookId));
-				return "redirect:/admin/book";
+				return "book";
 		    }
 		
 	   @PostMapping( params="addBook")
 		    public String bookSubmit(@ModelAttribute BookDto book, Model model) {
 		         
-		        model.addAttribute("book", book);
-		        
 		        notification = bookService.save(book);
 		        if(notification.hasErrors())
 					model.addAttribute("valid", notification.getFormattedErrors());
 				else
 					model.addAttribute("valid", "Succesfully registered!");
-		        return "redirect:/admin/book";
+		        return "book";
 		    }
 	   
 	   @PostMapping(params = "updateBook")
 		//public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername,@RequestParam Model model){
 		public String updateBook(@ModelAttribute BookDto book, Model model){
-			model.addAttribute("book",new BookDto());
 			System.out.println("ID "+book.getId()+" Booook2 "+book.getTitle());
 			notification = bookService.update(book);
 			if(notification.hasErrors())
 				model.addAttribute("valid", notification.getFormattedErrors());
 			else
 				model.addAttribute("valid", "Succesfully registered!");
-			return "redirect:/admin/book";
+			return "book";
 		}
 	 
 }

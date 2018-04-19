@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dto.BookDto;
-import model.Book;
-import model.builder.BookBuilder;
+import entity.Book;
+import entity.builder.BookBuilder;
 import repository.BookRepository;
 import validators.BookValidator;
 import validators.IValidator;
@@ -24,8 +24,6 @@ public class BookServiceImplementation implements BookService{
 	@Autowired
 	public BookServiceImplementation(BookRepository bookRepository){
 		this.bookRepository = bookRepository;
-		Book book = new BookBuilder().seAuthor("Steinbeck").setTitle("East of Eden").setGenre("drama").setPrice(50).setQuantity(20).build();
-		bookRepository.save(book);
 	}
 	@Override
 	public List<Book> findAll() {

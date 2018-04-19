@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dto.UserDto;
-import model.Role;
-import model.User;
+import entity.Role;
+import entity.User;
 import repository.UserRepository;
 import validators.IValidator;
 import validators.Notification;

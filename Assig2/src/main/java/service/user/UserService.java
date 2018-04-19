@@ -3,7 +3,7 @@ package service.user;
 import java.util.List;
 
 import dto.UserDto;
-import model.User;
+import entity.User;
 import validators.Notification;
 
 public interface UserService {

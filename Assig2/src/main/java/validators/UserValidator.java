@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dto.UserDto;
-import model.User;
+import entity.User;
 
 public class UserValidator implements IValidator{
 

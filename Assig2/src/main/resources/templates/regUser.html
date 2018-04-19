@@ -7,6 +7,19 @@
 <title>RegUser</title>
 </head>
 <body>
-
+ 
+    <div align = "center"  style="background-color:lightblue">
+  				 <h4>Validation</h4>
+ 				 <p th:text="${valid}" /></p>
+		</div> 
+    <form action="#" name="search" th:action="@{/regUser/showBooks}"  method="post">
+    	
+        <select name ="search" id ="search">
+    	<option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected ="${selectedOption}"></option>
+    	</select>
+    	<p>SearchBy: <input type="text" name ="field" id="field" /></p>
+    	<p>Value: <input type="text" name ="value" id="value" /></p>
+        <p><input type="submit" name="search" value="Search" /> </p>	
+		</form>
 </body>
 </html>

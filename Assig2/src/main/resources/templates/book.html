@@ -5,7 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div align = "left"> 
 	<h1>Add book</h1>
+	<div align = "center"  style="background-color:lightblue">
+  				 <h4>Validation</h4>
+ 				 <p th:text="${valid}" /></p>
+		</div> 
     <form action="#" name ="addBook" th:action="@{/admin/book}" th:object="${bookDto}" method="post">
         <p>Title: <input type="text" th:field="*{title}" /></p>
         <p>Author: <input type="text" th:field="*{author}" /></p>
@@ -39,5 +44,6 @@
         <p><input type="submit" name = "updateBook" value="Submit" /> </p>
     </form>
     <br>
+    </div>
 </body>
 </html>

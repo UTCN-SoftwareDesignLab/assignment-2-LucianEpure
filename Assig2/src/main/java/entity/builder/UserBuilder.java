@@ -1,6 +1,6 @@
-package model.builder;
+package entity.builder;
 
-import model.User;
+import entity.User;
 
 public class UserBuilder {
 

@@ -4,7 +4,7 @@ package service.book;
 import java.util.List;
 
 import dto.BookDto;
-import model.Book;
+import entity.Book;
 import validators.Notification;
 
 

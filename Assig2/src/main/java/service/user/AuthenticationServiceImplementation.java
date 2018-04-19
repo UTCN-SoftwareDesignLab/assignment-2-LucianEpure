@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dto.UserDto;
-import model.Role;
-import model.User;
+import entity.Role;
+import entity.User;
 import repository.RoleRepository;
 import repository.UserRepository;
 import validators.IValidator;
@@ -25,8 +25,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 	public AuthenticationServiceImplementation(UserRepository userRepository, RoleRepository roleRepository){
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
-		roleRepository.save(new Role("administrator"));
-		roleRepository.save(new Role("regUser"));
+		
 	}
 
 	@Override
