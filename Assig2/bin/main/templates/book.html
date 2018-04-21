@@ -43,7 +43,12 @@
         <p>Quantity: <input type="text" th:field="*{quantity}" /></p>
         <p><input type="submit" name = "updateBook" value="Submit" /> </p>
     </form>
-    <br>
+    
+    	<form action="#"  name = "generateReport" th:action="@{/admin/book}" method="post">
+    	<p>Type: <input type="text" name = "type" id = "type" /></p>
+    	<p><input type="submit" name = "generateReport" value="Generate Report" /></p>
+		</form>
+    
     </div>
 </body>
 </html>

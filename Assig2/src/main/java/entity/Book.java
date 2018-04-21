@@ -86,6 +86,11 @@ public class Book {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
+	public String toString(){
+		String message = this.getId()+", "+this.getTitle()+", "+this.getAuthor()+", "+this.getGenre()+", "+this.getPrice()+", "+this.getQuantity();  
+		return message;
+	}
 
 	
 }

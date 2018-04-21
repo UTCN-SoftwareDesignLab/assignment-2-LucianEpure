@@ -26,7 +26,7 @@ public class AdminController {
 
 	private UserService userService;
 	private AuthenticationService authenticationService;
-	private Notification<Boolean> notification;
+	
 	@Autowired
 	public AdminController(UserService userService, AuthenticationService authenticationService){
 		this.userService = userService;
@@ -36,13 +36,12 @@ public class AdminController {
 	@GetMapping()
 	@Order(value = 1)
 	 public String displayMenu( Model model) {
-			model.addAttribute(new UserDto());
-			model.addAttribute("valid", new String());
+			model.addAttribute(new UserDto());	
 	        return "administrator";
 	    }
 	@PostMapping(value = "/showUsers",params="showUsers")
 	 public String findAll(Model model) {
-	        final List<User> users = userService.findAll();
+	        List<User> users = userService.findAll();
 	        model.addAttribute("users", users);
 	        return "showUsers";
 	    }
@@ -52,9 +51,10 @@ public class AdminController {
 			userService.fireById(Integer.parseInt(deleteId));
 			return "redirect:/admin";
 	    }
+	
 	@PostMapping(params = "addUser")
 	public String addUser(@ModelAttribute UserDto user, Model model){
-		notification = authenticationService.registerUser(user);
+		Notification<Boolean> notification = authenticationService.registerUser(user);
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
@@ -65,13 +65,15 @@ public class AdminController {
 	@PostMapping(params = "updateUser")
 	//public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername,@RequestParam Model model){
 	public String updateUser(@ModelAttribute UserDto user, Model model){
-		notification = userService.update(user);
+		Notification<Boolean> notification = userService.update(user);
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
 			model.addAttribute("valid", "Succesfully registered!");
 		return "administrator";
 	}
+	
+	
 	
 	
 	

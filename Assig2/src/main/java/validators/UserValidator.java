@@ -18,13 +18,10 @@ public class UserValidator implements IValidator{
     private final UserDto user;
     private final List<String> errors;
 
-    public List<String> getErrors() {
-        return errors;
-    }
-    
+ 
     public UserValidator(UserDto user) {
         this.user = user;
-        errors = new ArrayList<>();
+        errors = new ArrayList<String>();
     }
 
     public boolean validate() {
@@ -33,6 +30,10 @@ public class UserValidator implements IValidator{
         return errors.isEmpty();
     }
 
+    public List<String> getErrors() {
+        return errors;
+    }
+    
     private void validateUsername(String username) {
         if (!Pattern.compile(EMAIL_VALIDATION_REGEX).matcher(username).matches()) {
             errors.add("Invalid email!");

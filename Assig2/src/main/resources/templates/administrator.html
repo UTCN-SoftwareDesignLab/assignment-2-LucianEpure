@@ -17,17 +17,17 @@
 		<br>
 		</div>
 		<div  align="center" class="showAllUsers">
+		
 		<h3>Add User</h3>
         <form action="#" name="addUser" th:action="@{/admin}"  th:object="${userDto}" method="post">
-    	 
     	<p>Username: <input type="text" th:field="*{username}" /></p>
         <p>Password: <input type="text" th:field="*{password}" /></p>
         <p><input type="submit" name="addUser" value="Register" /> </p>
 		</form>
+		
 		<br>
 		<h3>Delete User</h3>
 		<form action="#" name="deleteUser" th:action="@{/admin}"  method="post">
-    	
         <p>DeleteId: <input type="text" name ="deleteId" id="deleteId" /></p>
         <p><input type="submit" name="deleteUser" value="Delete User" /> </p>	
 		</form>
@@ -35,7 +35,7 @@
 		<br>
 		<h3>Show Users</h3>
 		<form action="#" name="showUsers" th:action="@{/admin/showUsers}"  method="post">
-         <p><input type="submit" name="showUsers" value="Show Users" /> </p>     
+        <p><input type="submit" name="showUsers" value="Show Users" /> </p>     
 		</form>
 		
 		<h3>Update User</h3>
@@ -49,12 +49,13 @@
         
         
       
+		
 		<form th:action="@{/admin/book}">
-    	<input type="submit" value="Manage Books" />
+    	<input type="submit" value="Manage Books" > 	
+		</form>
+		
+		
     	
-    	
-    	
-</form>
 </div>
 
         

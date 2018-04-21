@@ -1,7 +1,5 @@
 package service.book;
 
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import dto.BookDto;
 import entity.Book;
-import entity.builder.BookBuilder;
 import repository.BookRepository;
 import validators.BookValidator;
 import validators.IValidator;
@@ -77,6 +74,10 @@ public class BookServiceImplementation implements BookService{
 		}
 		
 		return updateBookNotification;
+	}
+	@Override
+	public List<Book> findOutOfStock() {
+		return bookRepository.findByQuantity(0);
 	}
 
 }

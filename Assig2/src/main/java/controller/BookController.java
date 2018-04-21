@@ -4,6 +4,7 @@ package controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,10 @@ import dto.BookDto;
 import dto.UserDto;
 import entity.Book;
 import entity.User;
+import service.book.BookSearch;
 import service.book.BookService;
+import service.report.ReportFactory;
+import service.report.ReportService;
 import validators.Notification;
 
 @Controller
@@ -26,13 +30,15 @@ import validators.Notification;
 public class BookController {
 
 	 private BookService bookService;
-	 private Notification<Boolean> notification;
+	
 	
 	  @Autowired
 	  public BookController(BookService bookService){
 		 this.bookService = bookService;
+		
 	  }
 	  @GetMapping()
+	  @Order(value = 1)
 			public String register(Model model){
 				model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
@@ -49,7 +55,7 @@ public class BookController {
 	    }
 	 
 	  @PostMapping(params="deleteBook")
-		 public String delete( @RequestParam("bookId") String bookId, Model model) {
+		 public String delete( @RequestParam("bookId") String bookId) {
 				bookService.deleteById(Integer.parseInt(bookId));
 				return "book";
 		    }
@@ -57,7 +63,7 @@ public class BookController {
 	   @PostMapping( params="addBook")
 		    public String bookSubmit(@ModelAttribute BookDto book, Model model) {
 		         
-		        notification = bookService.save(book);
+		   	Notification<Boolean> notification = bookService.save(book);
 		        if(notification.hasErrors())
 					model.addAttribute("valid", notification.getFormattedErrors());
 				else
@@ -69,11 +75,21 @@ public class BookController {
 		//public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername,@RequestParam Model model){
 		public String updateBook(@ModelAttribute BookDto book, Model model){
 			System.out.println("ID "+book.getId()+" Booook2 "+book.getTitle());
-			notification = bookService.update(book);
+			Notification<Boolean> notification  = bookService.update(book);
 			if(notification.hasErrors())
 				model.addAttribute("valid", notification.getFormattedErrors());
 			else
 				model.addAttribute("valid", "Succesfully registered!");
+			return "book";
+		}
+	   
+	   @PostMapping(params = "generateReport")
+		public String generateReport(@RequestParam("type") String type){
+		  
+			List<Book> books = bookService.findOutOfStock();
+			ReportService reportService = ReportFactory.getReport(type);
+			reportService.generateReport(books);
+			
 			return "book";
 		}
 	 

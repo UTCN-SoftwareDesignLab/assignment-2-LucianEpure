@@ -18,4 +18,6 @@ public interface BookService {
 	 Notification<Boolean> update(BookDto book);
 	 
 	 void deleteById(int id);
+	 
+	 List<Book> findOutOfStock();
 }

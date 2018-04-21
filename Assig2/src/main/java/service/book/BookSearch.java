@@ -12,4 +12,6 @@ public interface BookSearch {
 	
 	List<Book> searchByGenre(String title);
 	
+	List<Book> searchByAll(String title, String author, String genre);
+	
 }
