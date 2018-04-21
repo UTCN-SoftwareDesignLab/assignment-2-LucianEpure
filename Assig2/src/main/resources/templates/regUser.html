@@ -12,11 +12,17 @@
   				 <h4>Validation</h4>
  				 <p th:text="${valid}" /></p>
 		</div> 
-		
-   		<form action="#" name="search" th:action="@{/regUser/showBooks}"  method="post">
-        <select name ="search" id ="search">
-    	<option th:each="option : ${options}" th:value="${option}" th:text="${option}" th:selected ="${selectedOption}"></option>
+	<!-- 	<form action = "#" name = "test" th:action="@{/regUser}"  method="post">
+	    <select name ="search" id ="search" th:selected ="${selectedOption}">
+    	<option th:each="option : ${options}" th:value="${option}" th:text="${option}" ></option>
     	</select>
+		<p><input type="submit" name="test" value="Test" /> </p>	
+		
+		</form>-->
+   		
+   		
+   		<form action="#" name="search" th:action="@{/regUser/showBooks}"  method="post">
+       
     	<p>SearchBy: <input type="text" name ="field" id="field" /></p>
     	<p>Value: <input type="text" name ="value" id="value" /></p>
         <p><input type="submit" name="search" value="Search" /> </p>	
@@ -29,8 +35,8 @@
         <p><input type="submit" name="searchAll" value="SearchAll" /> </p>	
 		</form>
 		 
-		 <form action="#" name="sell" th:action="@{/regUser}"  method="post">
-       
+		 <form action="#" name="sell" th:action="@{/regUser}"  th:object="${saleDto}"  method="post">
+       	<p>Id: <input type="text" th:field="*{bookId}" /> Quantity: <input type="text" th:field="*{quantity}"/></p>
         <p><input type="submit" name="sell" value="Sell" /> </p>	
 		</form>
 		

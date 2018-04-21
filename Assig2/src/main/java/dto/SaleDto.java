@@ -1,7 +1,5 @@
 package dto;
 
-import entity.Book;
-
 public class SaleDto {
 
 	private int id;

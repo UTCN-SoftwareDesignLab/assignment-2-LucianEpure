@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import dto.UserDto;
 import entity.User;
-import main.Bootstrap;
 import service.user.AuthenticationService;
 import validators.Notification;
 
@@ -19,6 +18,9 @@ import validators.Notification;
 @RequestMapping("/register")
 public class LoginController {
 	
+	
+	public static boolean loggedUser = false;
+	public static boolean loggedAdmin = false;
 	private AuthenticationService authenticationService;
 	
 	@Autowired
@@ -52,6 +54,7 @@ public class LoginController {
 		//model.addAttribute("user",new UserDto());
 		User loggedUser = authenticationService.login(user);
 		if(loggedUser != null){
+			
 			return decidePage(loggedUser);
 		}
 		else{
@@ -61,10 +64,15 @@ public class LoginController {
 	}
 	
 	private String decidePage(User user){
-		if(user.getRoles().get(0).getRoleName().equalsIgnoreCase("Administrator"))
+		if(user.getRoles().get(0).getRoleName().equalsIgnoreCase("Administrator")){
+			loggedAdmin = true;
 			return "redirect:/admin";
-		if (user.getRoles().get(0).getRoleName().equalsIgnoreCase("regUser"))
+		}	
+		if (user.getRoles().get(0).getRoleName().equalsIgnoreCase("regUser")){
+			loggedUser = true;
 			return "redirect:/regUser";
+		}
+			
 		return null;
 	}
 	

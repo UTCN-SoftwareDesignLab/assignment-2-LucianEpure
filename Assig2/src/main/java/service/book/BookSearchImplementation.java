@@ -40,6 +40,7 @@ public class BookSearchImplementation implements BookSearch{
 
 	@Override
 	public List<Book> searchByAll(String title, String author, String genre) {
+	
 		return bookRepository.findByTitleAndAuthorAndGenre(title, author, genre);
 	}
 

@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +7,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.SaleDto;
 import entity.Book;
-import entity.User;
 import service.book.BookSearch;
-import service.book.BookService;
 import service.order.SaleBook;
 import validators.Notification;
 
@@ -37,11 +35,11 @@ public class RegUserController {
 	@GetMapping()
 	@Order(value = 1)
     public String displayMenu(Model model) {
-		
-		//model.addAttribute("options", options);
-		
-		//model.addAttribute("valid", new String());
-        return "regUser";
+		model.addAttribute(new SaleDto());
+		if(LoginController.loggedUser)
+			return "regUser";
+		else
+			return "error";
 	}
 	
 	@PostMapping(value = "/showBooks", params= "search")
@@ -73,12 +71,7 @@ public class RegUserController {
 	}
 	
 	@PostMapping(params = "sell")
-	public String sellBook(Model model){
-		
-		SaleDto sale = new SaleDto();
-		sale.setBookId(1);
-		sale.setQuantity(3);
-		
+	public String sellBook(@ModelAttribute SaleDto sale, Model model){
 	
 		Notification<Boolean> notification = saleBook.addSale(sale);
 		if(notification.hasErrors())
@@ -88,6 +81,17 @@ public class RegUserController {
 		return "regUser";
 		
 	}
+	/*
+	@PostMapping(params = "test")
+	public String test(@RequestParam("selectedOption") String selectedOption, Model model){
+		List<String> options = new ArrayList<String>();
+		options.add("A");
+		options.add("B");
+		model.addAttribute("options",options);
+		System.out.println(selectedOption);
+		return "regUser";
+		
+	}*/
 	
 	public List<Book> decideSearch(String searchBy, String field){
 		if(searchBy.equalsIgnoreCase("genre"))

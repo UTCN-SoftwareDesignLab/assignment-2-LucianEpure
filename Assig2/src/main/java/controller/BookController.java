@@ -10,16 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.BookDto;
-import dto.UserDto;
 import entity.Book;
-import entity.User;
-import service.book.BookSearch;
 import service.book.BookService;
 import service.report.ReportFactory;
 import service.report.ReportService;
@@ -40,9 +35,14 @@ public class BookController {
 	  @GetMapping()
 	  @Order(value = 1)
 			public String register(Model model){
-				model.addAttribute(new BookDto());	
+		  	if(LoginController.loggedAdmin){
+		  		model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
 				return "book";
+		  	}
+		  	else
+		  		return "error";
+				
 			}
 	  
 	  

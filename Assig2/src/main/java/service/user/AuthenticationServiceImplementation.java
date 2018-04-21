@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import dto.UserDto;
 import entity.Role;
 import entity.User;
+import entity.builder.UserBuilder;
 import repository.RoleRepository;
 import repository.UserRepository;
 import validators.IValidator;
@@ -38,16 +39,14 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 			userRegisterNotification.setResult(Boolean.FALSE);	
 		}	
 		else{
-			User dbUser = new User();
-			dbUser.setUsername(user.getUsername());
-			dbUser.setPassword(encodePassword(user.getPassword()));
+			User dbUser = new UserBuilder().setUsername(user.getUsername()).setPassword(encodePassword(user.getPassword())).build();
+			
 			List<Role> userRoles = dbUser.getRoles();
 			userRoles.add(roleRepository.findByRoleName("administrator"));
 			dbUser.setRoles(userRoles);
 			userRepository.save(dbUser);
 			userRegisterNotification.setResult(Boolean.TRUE);
 		}
-		System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
 		return userRegisterNotification;
 	}
 	
@@ -70,7 +69,6 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 			userRepository.save(dbUser);
 			userRegisterNotification.setResult(Boolean.TRUE);
 		}
-		System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
 		return userRegisterNotification;
 	}
 

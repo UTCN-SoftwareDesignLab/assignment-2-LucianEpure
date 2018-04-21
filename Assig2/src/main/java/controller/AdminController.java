@@ -8,13 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.UserDto;
-import entity.Book;
 import entity.User;
 import service.user.AuthenticationService;
 import service.user.UserService;
@@ -37,7 +35,10 @@ public class AdminController {
 	@Order(value = 1)
 	 public String displayMenu( Model model) {
 			model.addAttribute(new UserDto());	
-	        return "administrator";
+			if(LoginController.loggedAdmin)
+				return "administrator";
+			else
+				return "error";
 	    }
 	@PostMapping(value = "/showUsers",params="showUsers")
 	 public String findAll(Model model) {

@@ -1,18 +1,12 @@
 package service.order;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dto.SaleDto;
 import entity.Book;
 import entity.Sale;
+import entity.builder.SaleBuilder;
 import repository.BookRepository;
 import repository.SaleRepository;
 import validators.IValidator;
@@ -50,7 +44,8 @@ public class SaleBookImplementation implements SaleBook{
 			Book book = bookRepository.getOne(sale.getBookId());
 			if(book==null)
 				saleNotification.addError("Not such book!");
-			Sale dbSale = new Sale(book,sale.getQuantity());
+			Sale dbSale = new SaleBuilder().setBook(book).setQuantity(sale.getQuantity()).build();
+				
 			if(sale.getQuantity() > book.getQuantity()){
 				saleNotification.addError(" Not enough books! ");
 			}

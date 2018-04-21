@@ -28,17 +28,14 @@ public class Book {
 	 @Column(name = "quantity")
 	 private int quantity;
 	 
-	public Book(){
-		
-	}
-	
+	/*
 	public Book(String title, String author, String genre, double price, int quantity){
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
 		this.price = price;
 		this.quantity = quantity;
-	}
+	}*/
 	
 	public int getId() {
 		return id;

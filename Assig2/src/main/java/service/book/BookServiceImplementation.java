@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import dto.BookDto;
 import entity.Book;
+import entity.builder.BookBuilder;
 import repository.BookRepository;
 import validators.BookValidator;
 import validators.IValidator;
@@ -40,7 +41,9 @@ public class BookServiceImplementation implements BookService{
 			addBookNotification.setResult(Boolean.FALSE);
 		}
 		else{
-			Book dbBook = new Book(book.getTitle(),book.getAuthor(),book.getGenre(),book.getPrice(),book.getQuantity());
+			Book dbBook = new BookBuilder().setTitle(book.getTitle()).seAuthor(book.getAuthor()).setGenre(book.getGenre()).setPrice(book.getPrice()).build();
+					
+					//new Book(book.getTitle(),book.getAuthor(),book.getGenre(),book.getPrice(),book.getQuantity());
 			bookRepository.save(dbBook);
 			addBookNotification.setResult(Boolean.TRUE);
 		}

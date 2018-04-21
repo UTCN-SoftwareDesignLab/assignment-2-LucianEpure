@@ -10,11 +10,17 @@ public class UserBuilder {
 		this.user = new User();
 	}
 	
-	public void setUsername(String username){
-		this.user.setUsername(username);
+	public UserBuilder setUsername(String username){
+		user.setUsername(username);
+		return this;
 	}
 	
-	public void setPassword(String password){
-		this.user.setPassword(password);
+	public UserBuilder setPassword(String password){
+		user.setPassword(password);
+		return this;
+	}
+	
+	public User build(){
+		return this.user;
 	}
 }
