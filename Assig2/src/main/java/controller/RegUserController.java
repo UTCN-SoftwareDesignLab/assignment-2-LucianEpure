@@ -39,7 +39,7 @@ public class RegUserController {
 		if(LoginController.loggedUser)
 			return "regUser";
 		else
-			return "error";
+			return "loginError";
 	}
 	
 	@PostMapping(value = "/showBooks", params= "search")
@@ -62,7 +62,7 @@ public class RegUserController {
 		List<Book> books = bookSearch.searchByAll(title, author, genre);
 		if(books == null){
 			model.addAttribute("valid", "No books found");
-			return "regUser";
+			return "redirect:/regUser";
 		}
 		else{
 			model.addAttribute("books", books);
@@ -78,7 +78,7 @@ public class RegUserController {
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
 			model.addAttribute("valid", "Succesfully sold!");
-		return "regUser";
+		return "redirect:/regUser";
 		
 	}
 	/*
@@ -92,6 +92,11 @@ public class RegUserController {
 		return "regUser";
 		
 	}*/
+	@PostMapping(params = "logout")
+	public String logout(){
+		LoginController.loggedUser = false;
+		return "redirect:/register";
+	}
 	
 	public List<Book> decideSearch(String searchBy, String field){
 		if(searchBy.equalsIgnoreCase("genre"))

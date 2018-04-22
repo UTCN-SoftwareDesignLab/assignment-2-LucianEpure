@@ -63,6 +63,8 @@ public class LoginController {
 		}
 	}
 	
+	
+	
 	private String decidePage(User user){
 		if(user.getRoles().get(0).getRoleName().equalsIgnoreCase("Administrator")){
 			loggedAdmin = true;

@@ -11,7 +11,7 @@ public class ReportServiceCSV implements ReportService{
 	private static final String FILENAME = "OutOfStock.csv";
 	private static final String COMMA_DELIMITER = ",";
 	private static final String NEW_LINE_SEPARATOR = "\n";
-	private static final String FILE_HEADER = "id,title,autho,genre,price";
+	private static final String FILE_HEADER = "id,title,author,genre,price";
 	@Override
 	public void generateReport(List<Book> books) {
 		 FileWriter fileWriter = null;

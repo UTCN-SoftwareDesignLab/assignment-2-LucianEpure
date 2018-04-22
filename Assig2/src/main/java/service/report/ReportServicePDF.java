@@ -30,7 +30,7 @@ public class ReportServicePDF implements ReportService{
 		contentStream.setLeading(14.5f);
 		contentStream.beginText();
 		contentStream.newLineAtOffset(25, 700);
-		
+		contentStream.newLine(); 
 		contentStream.showText("ID Title Author Genre Price Quantity");
 		for(Book book:books){
 			

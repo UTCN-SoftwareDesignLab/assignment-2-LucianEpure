@@ -9,11 +9,17 @@
 <body>
 
 <div align = "left">
-		<H1>Admin Menu</H1>
-		<div align = "center"  style="background-color:lightblue">
+		<h1>Admin Menu</H1>
+		<div align = "left"  style="background-color:lightblue">
   				 <h4>Validation</h4>
  				 <p th:text="${valid}" /></p>
-		</div> 
+ 		</div>
+ 				 
+ 		<div align = "right">
+ 				 <form action = "#" th:action="@{/admin}" method = "post">
+ 				 <p><input type="submit" name="logout" value="Log Out" /> </p>
+ 				 </form>
+ 		</div> 
 		<br>
 		</div>
 		<div  align="center" class="showAllUsers">

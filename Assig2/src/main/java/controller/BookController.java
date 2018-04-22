@@ -41,7 +41,7 @@ public class BookController {
 				return "book";
 		  	}
 		  	else
-		  		return "error";
+		  		return "loginError";
 				
 			}
 	  
@@ -57,7 +57,7 @@ public class BookController {
 	  @PostMapping(params="deleteBook")
 		 public String delete( @RequestParam("bookId") String bookId) {
 				bookService.deleteById(Integer.parseInt(bookId));
-				return "book";
+				return "redirect:/admin/book";
 		    }
 		
 	   @PostMapping( params="addBook")
@@ -68,7 +68,7 @@ public class BookController {
 					model.addAttribute("valid", notification.getFormattedErrors());
 				else
 					model.addAttribute("valid", "Succesfully registered!");
-		        return "book";
+		        return "redirect:/admin/book";
 		    }
 	   
 	   @PostMapping(params = "updateBook")
@@ -80,7 +80,7 @@ public class BookController {
 				model.addAttribute("valid", notification.getFormattedErrors());
 			else
 				model.addAttribute("valid", "Succesfully registered!");
-			return "book";
+			return "redirect:/admin/book";
 		}
 	   
 	   @PostMapping(params = "generateReport")
@@ -90,7 +90,12 @@ public class BookController {
 			ReportService reportService = ReportFactory.getReport(type);
 			reportService.generateReport(books);
 			
-			return "book";
+			return "redirect:/admin/book";
+		}
+	   @PostMapping(params = "logout")
+		public String logout(){
+			LoginController.loggedAdmin = false;
+			return "redirect:/register";
 		}
 	 
 }
