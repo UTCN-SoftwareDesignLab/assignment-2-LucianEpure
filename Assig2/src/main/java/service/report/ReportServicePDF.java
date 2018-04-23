@@ -13,7 +13,7 @@ import entity.Book;
 
 public class ReportServicePDF implements ReportService{
 
-	public static final int PAGELIMIT = 30;
+	public static final int PAGELIMIT = 3;
 
 	@Override
 	public void generateReport(List<Book> books) {
@@ -30,15 +30,29 @@ public class ReportServicePDF implements ReportService{
 		contentStream.setLeading(14.5f);
 		contentStream.beginText();
 		contentStream.newLineAtOffset(25, 700);
-		contentStream.newLine(); 
+		
 		contentStream.showText("ID Title Author Genre Price Quantity");
+		contentStream.newLine(); 
 		for(Book book:books){
 			
 			contentStream.showText(book.toString());
 			contentStream.newLine(); 
 			rowCount++;
-			if(rowCount > PAGELIMIT)
-				document.addPage(new PDPage());
+			if(rowCount > PAGELIMIT){
+				contentStream.endText();
+				contentStream.close();
+				page = new PDPage();
+				document.addPage(page);
+				contentStream = new PDPageContentStream(document, page);
+				contentStream.setFont(PDType1Font.COURIER, 12);
+				contentStream.setLeading(14.5f);
+				contentStream.beginText();
+				contentStream.newLineAtOffset(25, 700);
+				contentStream.showText("ID Title Author Genre Price Quantity");
+				contentStream.newLine(); 
+				rowCount = 0;
+			}
+				
 		}
 		
 		contentStream.endText();

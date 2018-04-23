@@ -7,5 +7,5 @@ public class Constants {
 	public static final String COMMA_DELIMITER = ",";
 	public static final String NEW_LINE_SEPARATOR = "\n";
 	public static final String FILE_HEADER = "id,title,autho,genre,price";
-	
+	public static final String[] TYPES = new String[]{"CSV","PDF"};
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.BookDto;
 import entity.Book;
+import main.Constants;
 import service.book.BookService;
 import service.report.ReportFactory;
 import service.report.ReportService;
@@ -38,6 +39,7 @@ public class BookController {
 		  	if(LoginController.loggedAdmin){
 		  		model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
+				model.addAttribute("options",Constants.TYPES);
 				return "book";
 		  	}
 		  	else
@@ -92,6 +94,8 @@ public class BookController {
 			
 			return "redirect:/admin/book";
 		}
+
+	   
 	   @PostMapping(params = "logout")
 		public String logout(){
 			LoginController.loggedAdmin = false;

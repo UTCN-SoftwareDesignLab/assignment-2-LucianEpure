@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,17 +82,7 @@ public class RegUserController {
 		return "redirect:/regUser";
 		
 	}
-	/*
-	@PostMapping(params = "test")
-	public String test(@RequestParam("selectedOption") String selectedOption, Model model){
-		List<String> options = new ArrayList<String>();
-		options.add("A");
-		options.add("B");
-		model.addAttribute("options",options);
-		System.out.println(selectedOption);
-		return "regUser";
-		
-	}*/
+	
 	@PostMapping(params = "logout")
 	public String logout(){
 		LoginController.loggedUser = false;
