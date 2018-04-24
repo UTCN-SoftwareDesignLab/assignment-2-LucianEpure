@@ -19,8 +19,7 @@ import validators.Notification;
 public class LoginController {
 	
 	
-	public static boolean loggedUser = false;
-	public static boolean loggedAdmin = false;
+	
 	private AuthenticationService authenticationService;
 	
 	@Autowired
@@ -67,11 +66,11 @@ public class LoginController {
 	
 	private String decidePage(User user){
 		if(user.getRoles().get(0).getRoleName().equalsIgnoreCase("Administrator")){
-			loggedAdmin = true;
+			
 			return "redirect:/admin";
 		}	
 		if (user.getRoles().get(0).getRoleName().equalsIgnoreCase("regUser")){
-			loggedUser = true;
+			
 			return "redirect:/regUser";
 		}
 			

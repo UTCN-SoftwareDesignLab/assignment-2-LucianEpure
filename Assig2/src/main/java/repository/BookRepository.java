@@ -23,4 +23,7 @@ public interface BookRepository extends JpaRepository<Book,Integer>{
 	@Query("SELECT b FROM Book b WHERE ((b.title) = CASE WHEN (:title) IS NULL THEN (b.title) ELSE (:title) END )AND ((b.author) = CASE WHEN (:author) IS NULL THEN (b.author) ELSE (:author) END) AND((b.genre) = CASE WHEN(:genre) IS NULL THEN (b.genre) ELSE (:genre)END)")
 	List<Book> findByAny(@Param("title") String title,  @Param("author") String author, @Param("genre") String genre);
 	
+	@Query("SELECT b FROM Book b WHERE b.genre LIKE %:word% OR b.title LIKE %:word% OR b.author LIKE %:word%")
+	List<Book> findByWord(@Param("word") String word);
+	
 }

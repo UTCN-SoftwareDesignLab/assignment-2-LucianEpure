@@ -50,5 +50,11 @@ public class BookSearchImplementation implements BookSearch{
 		//return bookRepository.findByTitleAndAuthorAndGenre(title, author, genre);
 	}
 
+	@Override
+	public List<Book> searchBy(String word) {
+		System.out.println("AAAAAAAAAAA"+ word);
+		return bookRepository.findByWord(word);
+	}
+
 	
 }

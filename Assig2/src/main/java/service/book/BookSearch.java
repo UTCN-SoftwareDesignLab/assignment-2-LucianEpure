@@ -14,4 +14,6 @@ public interface BookSearch {
 	
 	List<Book> searchByAll(String title, String author, String genre);
 	
+	List<Book> searchBy(String searchBy);
+	
 }

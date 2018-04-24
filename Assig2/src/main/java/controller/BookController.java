@@ -26,26 +26,23 @@ import validators.Notification;
 public class BookController {
 
 	 private BookService bookService;
-	
+	 private ReportFactory reportFactory;
 	
 	  @Autowired
-	  public BookController(BookService bookService){
+	  public BookController(BookService bookService, ReportFactory reportFactory){
 		 this.bookService = bookService;
+		 this.reportFactory = reportFactory;
 		
 	  }
 	  @GetMapping()
 	  @Order(value = 1)
 			public String register(Model model){
-		  	if(LoginController.loggedAdmin){
+		  
 		  		model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
 				model.addAttribute("options",Constants.TYPES);
 				return "book";
-		  	}
-		  	else
-		  		return "loginError";
-				
-			}
+	  }
 	  
 	  
 	  @PostMapping(value = "/showBooks", params= "showBooks")
@@ -89,17 +86,17 @@ public class BookController {
 		public String generateReport(@RequestParam("type") String type){
 		  
 			List<Book> books = bookService.findOutOfStock();
-			ReportService reportService = ReportFactory.getReport(type);
+			ReportService reportService = reportFactory.getReport(type);
 			reportService.generateReport(books);
 			
 			return "redirect:/admin/book";
 		}
 
-	   
+	  /* 
 	   @PostMapping(params = "logout")
 		public String logout(){
 			LoginController.loggedAdmin = false;
 			return "redirect:/register";
 		}
-	 
+	 */
 }

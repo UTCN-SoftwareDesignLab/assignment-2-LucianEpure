@@ -82,5 +82,9 @@ public class BookServiceImplementation implements BookService{
 	public List<Book> findOutOfStock() {
 		return bookRepository.findByQuantity(0);
 	}
+	@Override
+	public Book findById(int id) {
+		return bookRepository.getOne(id);
+	}
 
 }

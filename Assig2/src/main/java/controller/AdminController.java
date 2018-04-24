@@ -35,11 +35,9 @@ public class AdminController {
 	@Order(value = 1)
 	 public String displayMenu( Model model) {
 			model.addAttribute(new UserDto());	
-			System.out.println("Admin logged is "+LoginController.loggedAdmin);
-			if(LoginController.loggedAdmin)
+			
 				return "administrator";
-			else
-				return "loginError";
+		
 	    }
 	@PostMapping(value = "/showUsers",params="showUsers")
 	 public String findAll(Model model) {
@@ -57,11 +55,12 @@ public class AdminController {
 	@PostMapping(params = "addUser")
 	public String addUser(@ModelAttribute UserDto user, Model model){
 		Notification<Boolean> notification = authenticationService.registerUser(user);
+		model.addAttribute(new UserDto());	
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
 			model.addAttribute("valid", "Succesfully registered!");
-		return "redirect:/admin";
+		return "administrator";
 	}
 	
 	@PostMapping(params = "updateUser")
@@ -72,13 +71,13 @@ public class AdminController {
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
 			model.addAttribute("valid", "Succesfully registered!");
-		return "rediredr:/admin";
+		return "administrator";
 	}
-	@PostMapping(params = "logout")
+	/*@PostMapping(params = "logout")
 	public String logout(){
 		LoginController.loggedAdmin = false;
 		return "redirect:/register";
-	}
+	}*/
 	
 	
 	
