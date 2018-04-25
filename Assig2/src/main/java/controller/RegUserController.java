@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
@@ -34,10 +36,15 @@ public class RegUserController {
 	
 	@GetMapping()
 	@Order(value = 1)
-    public String displayMenu(Model model) {
-		model.addAttribute(new SaleDto());
-		
+    public String displayMenu(Model model, HttpSession session) {
+		if((boolean) session.getAttribute("loggedUser")){
+			model.addAttribute(new SaleDto());
 			return "regUser";
+		}
+		else{
+			return "loginError";
+		}
+		
 		
 	}
 
@@ -83,12 +90,12 @@ public class RegUserController {
 		}
 	}
 	
-/*	@PostMapping(params = "logout")
-	public String logout(){
-		LoginController.loggedUser = false;
+	@PostMapping(params = "logout")
+	public String logout(HttpSession session){
+		session.setAttribute("loggedUser",false);
 		return "redirect:/register";
 	}
-	*/
+	
 	public List<Book> decideSearch(String searchBy, String field){
 		if(searchBy.equalsIgnoreCase("genre"))
 			return bookSearch.searchByGenre(field);

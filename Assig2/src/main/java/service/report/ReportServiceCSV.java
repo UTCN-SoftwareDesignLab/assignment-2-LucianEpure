@@ -13,7 +13,7 @@ public class ReportServiceCSV implements ReportService{
 	private static final String NEW_LINE_SEPARATOR = "\n";
 	private static final String FILE_HEADER = "id,title,author,genre,price";
 	@Override
-	public void generateReport(List<Book> books) {
+	public boolean generateReport(List<Book> books) {
 		 FileWriter fileWriter = null;
 		 
 		 try {
@@ -33,6 +33,7 @@ public class ReportServiceCSV implements ReportService{
 				fileWriter.append(NEW_LINE_SEPARATOR);
 				
 			}
+			return true;
 		 }
 			 catch (Exception e) {
 				 	            System.out.println("Error in CsvFileWriter !!!");
@@ -47,7 +48,7 @@ public class ReportServiceCSV implements ReportService{
 				 	        }
 				
 			
-		
+		return false;
 	}
 
 }

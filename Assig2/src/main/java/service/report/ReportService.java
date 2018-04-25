@@ -8,5 +8,5 @@ import entity.Book;
 
 public interface ReportService {
 
-	public void generateReport(List<Book> books);
+	public boolean generateReport(List<Book> books);
 }

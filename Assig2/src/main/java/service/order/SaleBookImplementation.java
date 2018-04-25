@@ -25,8 +25,7 @@ public class SaleBookImplementation implements SaleBook{
 	public SaleBookImplementation(SaleRepository saleRepository, BookRepository bookRepository){
 		this.saleRepository = saleRepository;
 		this.bookRepository = bookRepository;
-	//	cart = new ArrayList<SaleDto>();
-	//	store = new HashMap<Integer, Integer>();
+	
 	}
 	
 	@Override
@@ -48,12 +47,14 @@ public class SaleBookImplementation implements SaleBook{
 				
 			if(sale.getQuantity() > book.getQuantity()){
 				saleNotification.addError(" Not enough books! ");
+				saleNotification.setResult(Boolean.FALSE);
 			}
 			else{	
 				book.setQuantity(book.getQuantity()-sale.getQuantity());
 				bookRepository.save(book);//update book
 				dbSale.setPrice(book.getPrice()*sale.getQuantity());
 				saleRepository.save(dbSale);
+				saleNotification.setResult(Boolean.TRUE);
 			}	
 		}
 		return saleNotification;

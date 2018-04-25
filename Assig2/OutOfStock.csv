@@ -1,2 +1,3 @@
-id,title,autho,genre,price
-3,A,B,C,0.0
+id,title,author,genre,price
+0,D,E,F,10.0
+0,null,null,null,0.0

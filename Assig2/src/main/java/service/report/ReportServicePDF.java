@@ -16,7 +16,7 @@ public class ReportServicePDF implements ReportService{
 	public static final int PAGELIMIT = 3;
 
 	@Override
-	public void generateReport(List<Book> books) {
+	public boolean generateReport(List<Book> books) {
 		PDDocument document = new PDDocument();
 		PDPage page = new PDPage();
 		int rowCount = 0;
@@ -60,9 +60,11 @@ public class ReportServicePDF implements ReportService{
 		 
 		document.save("OutOfStock.pdf");
 		document.close();
+		return true;
 		} catch (IOException e) {
 		
 			e.printStackTrace();
+			return false;
 		}
 	}
 

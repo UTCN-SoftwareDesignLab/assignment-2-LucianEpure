@@ -63,7 +63,7 @@ public class BookServiceTest {
 		book.setGenre("C");
 		book.setPrice(10);
 		book.setQuantity(3);
-		System.out.println(book.getTitle());
+		
 		Assert.assertTrue(bookService.save(book).getResult());
 	}
 	@Test()

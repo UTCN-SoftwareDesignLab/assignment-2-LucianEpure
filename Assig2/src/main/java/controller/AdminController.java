@@ -2,6 +2,8 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
@@ -33,10 +35,12 @@ public class AdminController {
 	
 	@GetMapping()
 	@Order(value = 1)
-	 public String displayMenu( Model model) {
-			model.addAttribute(new UserDto());	
-			
-				return "administrator";
+	 public String displayMenu( Model model,HttpSession session) {
+				model.addAttribute(new UserDto());	
+				if((boolean) session.getAttribute("loggedAdmin"))
+					return "administrator";
+				else
+					return "loginerror";
 		
 	    }
 	@PostMapping(value = "/showUsers",params="showUsers")
@@ -55,7 +59,7 @@ public class AdminController {
 	@PostMapping(params = "addUser")
 	public String addUser(@ModelAttribute UserDto user, Model model){
 		Notification<Boolean> notification = authenticationService.registerUser(user);
-		model.addAttribute(new UserDto());	
+		//model.addAttribute(new UserDto());	
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
@@ -67,17 +71,18 @@ public class AdminController {
 	//public String updateUser(@RequestParam("updateId") String updateId,@RequestParam("newUsername") String newUsername,@RequestParam Model model){
 	public String updateUser(@ModelAttribute UserDto user, Model model){
 		Notification<Boolean> notification = userService.update(user);
+		//	model.addAttribute(new UserDto());	
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
 			model.addAttribute("valid", "Succesfully registered!");
 		return "administrator";
 	}
-	/*@PostMapping(params = "logout")
-	public String logout(){
-		LoginController.loggedAdmin = false;
+	@PostMapping(params = "logout")
+	public String logout(HttpSession session){
+		session.setAttribute("loggedAdmin", false);
 		return "redirect:/register";
-	}*/
+	}
 	
 	
 	

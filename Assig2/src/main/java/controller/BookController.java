@@ -3,6 +3,8 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
@@ -36,12 +38,15 @@ public class BookController {
 	  }
 	  @GetMapping()
 	  @Order(value = 1)
-			public String register(Model model){
+			public String register(Model model, HttpSession session){
 		  
 		  		model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
 				model.addAttribute("options",Constants.TYPES);
-				return "book";
+				if((boolean) session.getAttribute("loggedAdmin"))
+					return "book";
+				else
+					return "loginerror";
 	  }
 	  
 	  
@@ -92,11 +97,11 @@ public class BookController {
 			return "redirect:/admin/book";
 		}
 
-	  /* 
+	  
 	   @PostMapping(params = "logout")
-		public String logout(){
-			LoginController.loggedAdmin = false;
+		public String logout(HttpSession session){
+			session.setAttribute("loggedAdmin", false);
 			return "redirect:/register";
 		}
-	 */
+	 
 }

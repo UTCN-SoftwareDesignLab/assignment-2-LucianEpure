@@ -18,20 +18,15 @@
  				 <p><input type="submit" name="logout" value="Log Out" /> </p>
  				 </form>
  		</div>
-   		
-		<br>
-		  <form action="#" name="searchAll" th:action="@{/regUser/showBooks}"  method="post">
-		  <p>Title: <input type="text" name ="title" id="title" /></p>
-		  <p>Author: <input type="text" name ="author" id="author" /></p>
-		  <p>Genre: <input type="text" name ="genre" id="genre" /></p>
-        <p><input type="submit" name="searchAll" value="SearchAll" /> </p>	
-		</form>
-		
+   		<br>
+		<h3> Search </h3>
 		<form action="#" name="searchBy" th:action="@{/regUser/showBooks}"  method="post">
 		     <p>Identifier: <input type="text" name ="word" id="word" /></p>
 		     <p><input type="submit" name="searchBy" value="SearchBy" /> </p>	
 		</form>
 		 
+		 <br>
+		
 		<h3>Sell</h3>
 		<form action="#" name="sell" th:action="@{/regUser}"  th:object="${saleDto}"  method="post">
        	<p>Id: <input type="text" th:field="*{bookId}" /> Quantity: <input type="text" th:field="*{quantity}"/></p>
