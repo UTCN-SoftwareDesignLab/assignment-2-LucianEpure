@@ -1,4 +1,4 @@
-package tests.unit;
+package unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -43,18 +44,19 @@ public class UserServiceTest {
 	@Before
 	public void setup(){
 		authenticationService = new AuthenticationServiceImplementation(userRepository,roleRepository);
-		userService = new UserServiceImplementation(userRepository, authenticationService);
+		userService = new UserServiceImplementation(userRepository);
 		Role roleAdmin = new Role();
 		roleAdmin.setRoleName("administrator");
 		Role roleUser = new Role();
 		roleUser.setRoleName("regUser");
 		User user = new User();
+		
 		user.setUsername(TEST_USERNAME);
 		user.setPassword(TEST_PASSWORD);
 		Mockito.when(roleRepository.findByRoleName("administrator")).thenReturn(roleAdmin);
 		Mockito.when(roleRepository.findByRoleName("regUser")).thenReturn(roleUser);
 		Mockito.when(userRepository.getOne(1)).thenReturn(user);
-		Mockito.when(userRepository.findByUsernameAndPassword(TEST_USERNAME, authenticationService.encodePassword(TEST_PASSWORD))).thenReturn(user);
+		
 		//Mockito.when(bookRepository.findByQuantity(0)).thenReturn(books);
 		//Mockito.when(bookRepository.save(book)).thenReturn(true);
 		
@@ -65,7 +67,7 @@ public class UserServiceTest {
 		UserDto user = new UserDto();
 		user.setUsername(TEST_USERNAME);
 		user.setPassword(TEST_PASSWORD);
-		Assert.assertTrue(authenticationService.registerAdmin(user).getResult());
+		Assert.assertTrue(authenticationService.register(user,"administrator").getResult());
 	}
 	
 	@Test()
@@ -73,17 +75,10 @@ public class UserServiceTest {
 		UserDto user = new UserDto();
 		user.setUsername(TEST_USERNAME);
 		user.setPassword(TEST_PASSWORD);
-		Assert.assertTrue(authenticationService.registerUser(user).getResult());
+		Assert.assertTrue(authenticationService.register(user,"regUser").getResult());
 	}
 	
-	@Test()
-	public void login(){
-		UserDto user = new UserDto();
-		user.setUsername(TEST_USERNAME);
-		user.setPassword(TEST_PASSWORD);
-		Assert.assertNotNull(authenticationService.login(user));
-	}
-	
+
 	@Test()
 	public void findAll(){
 		List<User> users = userService.findAll();

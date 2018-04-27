@@ -86,5 +86,13 @@ public class BookServiceImplementation implements BookService{
 	public Book findById(int id) {
 		return bookRepository.getOne(id);
 	}
+	@Override
+	public void removeAll() {
+		bookRepository.deleteAll();
+	}
+	@Override
+	public List<Book> findByTitle(String title) {
+		return bookRepository.findByTitle(title);
+	}
 
 }

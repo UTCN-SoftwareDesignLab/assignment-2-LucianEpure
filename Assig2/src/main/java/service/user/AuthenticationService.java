@@ -6,11 +6,6 @@ import validators.Notification;
 
 public interface AuthenticationService {
 
-	Notification<Boolean> registerAdmin(UserDto user);
-	
-	Notification<Boolean> registerUser(UserDto user);
-	
-	String encodePassword(String password);
-	
-	User login(UserDto user);
+	Notification<Boolean> register(UserDto user,String type);
+
 }

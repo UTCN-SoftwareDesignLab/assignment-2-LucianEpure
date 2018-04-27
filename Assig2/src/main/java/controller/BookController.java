@@ -3,10 +3,15 @@ package controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,15 +43,12 @@ public class BookController {
 	  }
 	  @GetMapping()
 	  @Order(value = 1)
-			public String register(Model model, HttpSession session){
+			public String register(Model model){
 		  
 		  		model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
 				model.addAttribute("options",Constants.TYPES);
-				if((boolean) session.getAttribute("loggedAdmin"))
-					return "book";
-				else
-					return "loginerror";
+						return "book";
 	  }
 	  
 	  
@@ -97,11 +99,13 @@ public class BookController {
 			return "redirect:/admin/book";
 		}
 
-	  
-	   @PostMapping(params = "logout")
-		public String logout(HttpSession session){
-			session.setAttribute("loggedAdmin", false);
-			return "redirect:/register";
-		}
-	 
+	   @PostMapping(params="logout")
+	    public String logout(HttpServletRequest request, HttpServletResponse response){
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        if (auth != null){
+	            new SecurityContextLogoutHandler().logout(request, response, auth);
+	        }
+	        return "redirect:/login";
+	}
+	
 }

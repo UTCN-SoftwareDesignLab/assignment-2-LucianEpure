@@ -19,7 +19,11 @@ public interface BookService {
 	 
 	 Book findById(int id);
 	 
+	 List<Book> findByTitle(String title);
+	 
 	 void deleteById(int id);
+	 
+	 void removeAll();
 	 
 	 List<Book> findOutOfStock();
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dto.UserDto;
@@ -16,13 +17,11 @@ import validators.UserValidator;
 public class UserServiceImplementation implements UserService{
 
 	private UserRepository userRepository;
-	private AuthenticationService authenticationService;
 	private IValidator validator;
 	
 	@Autowired
-	public UserServiceImplementation(UserRepository userRepository, AuthenticationService authenticationService){
+	public UserServiceImplementation(UserRepository userRepository){
 		this.userRepository = userRepository;
-		this.authenticationService = authenticationService;
 	}
 	@Override
 	public List<User> findAll() {
@@ -49,7 +48,7 @@ public class UserServiceImplementation implements UserService{
 		
 		
 		validator = new UserValidator(user); 
-		
+		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
 		boolean userValid = validator.validate();
 		Notification<Boolean> userRegisterNotification = new Notification<>();
 		if(!userValid){
@@ -60,11 +59,11 @@ public class UserServiceImplementation implements UserService{
 		else{
 			User dbUser = userRepository.getOne(user.getId());
 			dbUser.setUsername(user.getUsername());
-			dbUser.setPassword(authenticationService.encodePassword(user.getPassword()));
+			dbUser.setPassword(enc.encode(user.getPassword()));
 			userRepository.save(dbUser);
 			userRegisterNotification.setResult(Boolean.TRUE);
 		}
-		//System.out.println("USEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEr"+userValid);
+		
 		return userRegisterNotification;
 	}
 }

@@ -1,17 +1,24 @@
 package controller;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.RequestEntity;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import dto.UserDto;
 import entity.User;
@@ -19,77 +26,59 @@ import service.user.AuthenticationService;
 import validators.Notification;
 
 @Controller
-@RequestMapping("/register")
-public class LoginController {
+@RequestMapping("/login")
+public class LoginController implements WebMvcConfigurer{
 	
 	
 	
 	private AuthenticationService authenticationService;
 	
 	@Autowired
-	public LoginController(AuthenticationService authenticationService){
+	public LoginController (AuthenticationService authenticationService){
 		this.authenticationService = authenticationService;
 	}
 	
 	
 	@GetMapping()
 	@Order(value = 1)
-    public String displayMenu(Model model,HttpServletRequest request, HttpSession session) {
-		
-		session.invalidate();
-		session = request.getSession();
-		session.setAttribute("loggedUser", false);
-		session.setAttribute("loggedAdmin", false);
+    public String displayMenu(Model model) {
 		model.addAttribute(new UserDto());
-		
-        return "loginreg";
+        return "login";
 	}
+
 	
+	@PostMapping(params="login")
+    public String login(HttpServletRequest request, HttpServletResponse response,@ModelAttribute UserDto user,
+                        BindingResult result) throws ServletException {
+        try {
+        	RequestCache requestCache = new HttpSessionRequestCache();
+            request.login(user.getUsername(),user.getPassword());
+            SavedRequest savedRequest = requestCache.getRequest(request, response);
+            if (savedRequest != null) {
+                return "redirect:" + savedRequest.getRedirectUrl();
+            } else {
+                return "redirect:/";
+            }
+
+        } catch (ServletException authenticationFailed) {
+            result.rejectValue(null, "authentication.failed");
+            return "login";
+        }
+}
+	/*
 	@PostMapping(params="register")
     public String register( @ModelAttribute UserDto user, Model model) {
 
-		//model.addAttribute("user",new UserDto());
-		Notification<Boolean> notification = authenticationService.registerAdmin(user);
+		
+		Notification<Boolean> notification = authenticationService.register(user,"administrator");
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else
 			model.addAttribute("valid", "Succesfully registered!");
-        return "loginreg";
+        return "login";
 	}
-	
-	@PostMapping(params="login")
-    public String login(@ModelAttribute UserDto user, Model model, HttpSession session) {
-		//model.addAttribute("user",new UserDto());
-		User loggedUser = authenticationService.login(user);
-		if(loggedUser != null){
-			
-			
-			return decidePage(loggedUser,session);
-		}
-		else{
-			
-		   
-			model.addAttribute("valid", "Not logged!");
-			//System.out.println(arg0);
-			
-			return "loginreg";
-		}
-	}
-	
-	
-	
-	private String decidePage(User user,HttpSession session){
-		if(user.getRoles().get(0).getRoleName().equalsIgnoreCase("Administrator")){
-			session.setAttribute("loggedAdmin", true);
-			return "redirect:/admin";
-		}	
-		if (user.getRoles().get(0).getRoleName().equalsIgnoreCase("regUser")){
-			session.setAttribute("loggedUser", true);
-			return "redirect:/regUser";
-		}
-			
-		return null;
-	}
+	*/
+
 	
 	
 }

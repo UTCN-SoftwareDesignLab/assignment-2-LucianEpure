@@ -2,10 +2,15 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,15 +41,10 @@ public class RegUserController {
 	
 	@GetMapping()
 	@Order(value = 1)
-    public String displayMenu(Model model, HttpSession session) {
-		if((boolean) session.getAttribute("loggedUser")){
+    public String displayMenu(Model model) {
+	
 			model.addAttribute(new SaleDto());
 			return "regUser";
-		}
-		else{
-			return "loginError";
-		}
-		
 		
 	}
 
@@ -90,11 +90,15 @@ public class RegUserController {
 		}
 	}
 	
-	@PostMapping(params = "logout")
-	public String logout(HttpSession session){
-		session.setAttribute("loggedUser",false);
-		return "redirect:/register";
+	  @PostMapping(params="logout")
+	    public String logout(HttpServletRequest request, HttpServletResponse response){
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        if (auth != null){
+	            new SecurityContextLogoutHandler().logout(request, response, auth);
+	        }
+	        return "redirect:/login";
 	}
+	
 	
 	public List<Book> decideSearch(String searchBy, String field){
 		if(searchBy.equalsIgnoreCase("genre"))
