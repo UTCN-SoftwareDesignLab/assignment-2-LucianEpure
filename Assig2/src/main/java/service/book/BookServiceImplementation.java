@@ -41,7 +41,7 @@ public class BookServiceImplementation implements BookService{
 			addBookNotification.setResult(Boolean.FALSE);
 		}
 		else{
-			Book dbBook = new BookBuilder().setTitle(book.getTitle()).seAuthor(book.getAuthor()).setGenre(book.getGenre()).setPrice(book.getPrice()).build();
+			Book dbBook = new BookBuilder().setTitle(book.getTitle()).seAuthor(book.getAuthor()).setGenre(book.getGenre()).setPrice(book.getPrice()).setQuantity(book.getQuantity()).build();
 					
 					//new Book(book.getTitle(),book.getAuthor(),book.getGenre(),book.getPrice(),book.getQuantity());
 			bookRepository.save(dbBook);

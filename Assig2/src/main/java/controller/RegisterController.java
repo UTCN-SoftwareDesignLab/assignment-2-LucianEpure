@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dto.UserDto;
-import service.user.AuthenticationService;
+import service.user.UserService;
 import validators.Notification;
 
 
 @Controller
 @RequestMapping("/registration")
 public class RegisterController {
-	private AuthenticationService authenticationService;
+	private UserService userService;
 	
-	public RegisterController(AuthenticationService authenticationService){
-		this.authenticationService = authenticationService;
+	public RegisterController(UserService userService){
+		this.userService = userService;
 	}
 	
 	@GetMapping()
@@ -29,10 +29,8 @@ public class RegisterController {
 		return "register";
 	}
 	@PostMapping(params="register")
-    public String register( @ModelAttribute UserDto user, Model model) {
-
-		
-		Notification<Boolean> notification = authenticationService.register(user,"administrator");
+    public String register( @ModelAttribute UserDto user, Model model) {	
+		Notification<Boolean> notification = userService.register(user,"administrator");
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());
 		else

@@ -14,8 +14,8 @@ import entity.Book;
 import entity.builder.BookBuilder;
 import repository.BookRepository;
 import repository.SaleRepository;
-import service.order.SaleBook;
-import service.order.SaleBookImplementation;
+import service.sale.SaleBook;
+import service.sale.SaleBookImplementation;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

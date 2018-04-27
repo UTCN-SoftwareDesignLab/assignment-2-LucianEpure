@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.UserDto;
 import entity.User;
-import service.user.AuthenticationService;
 import service.user.UserService;
 import validators.Notification;
 
@@ -31,22 +29,18 @@ import validators.Notification;
 public class AdminController {
 
 	private UserService userService;
-	private AuthenticationService authenticationService;
+	
 	
 	@Autowired
-	public AdminController(UserService userService, AuthenticationService authenticationService){
+	public AdminController(UserService userService){
 		this.userService = userService;
-		this.authenticationService = authenticationService;
 	}
 	
 	@GetMapping()
 	@Order(value = 1)
 	 public String displayMenu( Model model,HttpSession session) {
 				model.addAttribute(new UserDto());	
-			
 					return "administrator";
-			
-		
 	    }
 	@PostMapping(value = "/showUsers",params="showUsers")
 	 public String findAll(Model model) {
@@ -63,7 +57,7 @@ public class AdminController {
 	
 	@PostMapping(params = "addUser")
 	public String addUser(@ModelAttribute UserDto user, Model model){
-		Notification<Boolean> notification = authenticationService.register(user,"regUser");
+		Notification<Boolean> notification = userService.register(user,"regUser");
 		//model.addAttribute(new UserDto());	
 		if(notification.hasErrors())
 			model.addAttribute("valid", notification.getFormattedErrors());

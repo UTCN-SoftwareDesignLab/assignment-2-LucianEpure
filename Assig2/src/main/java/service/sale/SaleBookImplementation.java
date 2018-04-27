@@ -1,4 +1,6 @@
-package service.order;
+package service.sale;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,7 @@ import validators.SaleValidator;
 @Service
 public class SaleBookImplementation implements SaleBook{
 
-	//private List<SaleDto> cart;
-	//private Map<Integer,Integer> store;
+
 	private SaleRepository saleRepository;
 	private BookRepository bookRepository;
 	private IValidator validator;
@@ -59,33 +60,10 @@ public class SaleBookImplementation implements SaleBook{
 		}
 		return saleNotification;
 	}
-	/*
-	public void addToCart(SaleDto sale){
-		cart.add(sale);
-		if(store.get(sale.getId())==null)
-			store.put(sale.getId(), new Integer(sale.getQuantity()));
-		else
-			store.put(sale.getBookId(),store.get(sale.getBookId())+sale.getQuantity());
-		
+
+	@Override
+	public List<Sale> findAll() {
+		return saleRepository.findAll();
 	}
-	
-	public void showCart(){
-		 Set set = store.entrySet();
-		Iterator i = set.iterator();
-	      
-	      // Display elements
-	      while(i.hasNext()) {
-	         Map.Entry me = (Map.Entry)i.next();
-	         System.out.print(me.getKey() + ": ");
-	         System.out.println(me.getValue());
-	      }
-	      System.out.println("hhhhhhhhhhhhhhhhhh");
-	}
-	
-	public void checkout(){
-		for(SaleDto sale:cart){
-			
-		}
-	}*/
 
 }

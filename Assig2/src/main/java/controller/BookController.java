@@ -3,7 +3,6 @@ package controller;
 
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,7 +47,7 @@ public class BookController {
 		  		model.addAttribute(new BookDto());	
 				model.addAttribute("value",new String());
 				model.addAttribute("options",Constants.TYPES);
-						return "book";
+				return "book";
 	  }
 	  
 	  
@@ -74,7 +73,7 @@ public class BookController {
 					model.addAttribute("valid", notification.getFormattedErrors());
 				else
 					model.addAttribute("valid", "Succesfully registered!");
-		        return "redirect:/admin/book";
+		        return "book";
 		    }
 	   
 	   @PostMapping(params = "updateBook")
@@ -86,7 +85,7 @@ public class BookController {
 				model.addAttribute("valid", notification.getFormattedErrors());
 			else
 				model.addAttribute("valid", "Succesfully registered!");
-			return "redirect:/admin/book";
+			return "book";
 		}
 	   
 	   @PostMapping(params = "generateReport")

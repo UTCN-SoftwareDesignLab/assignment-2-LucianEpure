@@ -26,29 +26,7 @@ public class BookSearchImplementation implements BookSearch{
 		
 	}
 
-	@Override
-	public List<Book> searchByAuthor(String author) {
-		return bookRepository.findByAuthor(author);
-		
-	}
-
-	@Override
-	public List<Book> searchByGenre(String genre) {
-		return bookRepository.findByGenre(genre);
-		
-	}
-
-	@Override
-	public List<Book> searchByAll(String title, String author, String genre) {
-		if(title == "")
-			title = null;
-		if(author == "")
-			author = null;
-		if(genre =="")
-			genre=null;
-		return bookRepository.findByAny(title, author, genre);
-		//return bookRepository.findByTitleAndAuthorAndGenre(title, author, genre);
-	}
+	
 
 	@Override
 	public List<Book> searchBy(String word) {
